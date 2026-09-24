@@ -127,20 +127,169 @@ Classify the conversation into one of:
 - information
 - none
 
+TASK vs REQUEST:
+
+A TASK means the speaker or the speaker's side is expected
+to perform the action.
+
+Examples:
+- "I need to submit the assignment." → task
+- "I'll send the code tonight." → task
+- "I will complete the form." → task
+
+A REQUEST means the speaker is asking ANOTHER PERSON
+to perform an action or provide something.
+
+Examples:
+- "Can you send me the assignment?" → request
+- "Please send the PYQ solution." → request
+- "Mujhe notes bhej do." → request
+
+Do NOT classify a message as a REQUEST merely because it
+contains an action verb such as send, solve, submit, check,
+prepare, or share.
+
+Determine WHO is expected to perform the action using the
+current message and surrounding context.
+
+If the speaker describes their own responsibility,
+intention, or planned action, classify it as TASK.
+
+If the speaker asks another person to act or provide
+something, classify it as REQUEST.
+
+If the context does not establish who should perform the
+action, do not invent an assignee. Prefer a conservative
+classification with lower confidence.
+
+DEADLINE:
+
+A DEADLINE is used when a date, day, time, or time
+constraint is explicitly mentioned AND is clearly associated
+with an action, requirement, or commitment.
+
+Examples:
+- "Submit the assignment tomorrow." → deadline
+- "Kal submit karna hai." → deadline
+
+Do not classify every message containing a time as a
+deadline. The time must be meaningful to an action,
+requirement, or commitment.
+
+INFORMATION:
+
+An INFORMATION message contains a useful fact, update,
+announcement, or knowledge that does not necessarily
+require an action.
+
+DECISION:
+
+A DECISION means the conversation clearly indicates that
+something has been finalized, selected, agreed upon,
+or decided.
+
+Examples:
+- "We'll use React." → decision
+- "Topic finalized: Face Recognition." → decision
+- "Let's go with option 2." → decision
+
+Do not classify a suggestion as a decision unless the
+conversation indicates that it was actually accepted
+or finalized.
+
+CONTEXT INTERPRETATION:
+
+The CURRENT MESSAGE is the primary message being classified.
+
+PREVIOUS and NEXT messages are provided to clarify its meaning.
+
+Use context to determine:
+- who is speaking
+- who is being addressed
+- who is expected to perform an action
+- what an action refers to
+- what a deadline applies to
+- whether an action is personal or requested from another person
+
+Context may clarify the meaning, but NEVER invent an action,
+person, deadline, responsibility, or decision that is not
+supported by the conversation.
+
+AMBIGUOUS ACTIONS:
+
+If a message could reasonably be interpreted as either a
+TASK or REQUEST and the available context does not resolve
+the ambiguity, do not force a classification.
+
+Prefer NONE or INFORMATION with lower confidence rather
+than making an unsupported assumption.
+
 If there is an actionable task, describe it briefly.
 
-If a deadline or time is mentioned, extract it.
-Otherwise use null.
+If a deadline or time is mentioned and clearly applies to
+an action, extract it. Otherwise use null.
 
 Use:
-- high priority for urgent/deadline-sensitive items
-- medium for useful requests/tasks
-- low for less important information
+- high priority for urgent or deadline-sensitive items
+- medium priority for useful requests or tasks
+- low priority for less important information
 
 If the context is insufficient, do not guess.
-Use lower confidence.
 
-IMPORTANT:
+STRICT ACCURACY RULES:
+
+1. DO NOT INVENT INFORMATION.
+   Only use information explicitly present in the
+   conversation or clearly established by its surrounding
+   messages.
+
+2. DO NOT ASSUME WHAT A VAGUE MESSAGE REFERS TO.
+
+3. The TASK field must describe only an action that is
+   actually supported by the conversation.
+
+4. The DEADLINE field must contain only a time/date
+   explicitly supported by the conversation.
+
+5. is_important should be TRUE only when the conversation
+   contains genuinely useful information, an actionable
+   request/task, a meaningful deadline, or a clear decision.
+
+6. If the conversation is casual, vague, or insufficient,
+   use:
+   - type = none
+   - task = null
+   - deadline = null
+   - evidence = null
+
+EVIDENCE REQUIREMENT:
+
+For every result that is not NONE, provide an "evidence"
+field containing the exact original message text or a short
+exact phrase from the conversation that directly supports
+your classification.
+
+Do NOT write an explanation in the evidence field.
+
+Evidence must come directly from the conversation.
+
+For tasks, the evidence must support the actual action
+described in the task.
+
+For requests, the evidence must support that another person
+is being asked to perform or provide something.
+
+For deadlines, the evidence must support both the existence
+of the deadline and what it applies to.
+
+For decisions, the evidence must support that the decision
+was actually finalized or agreed upon.
+
+Do not use surrounding context to invent an action.
+Context may clarify a message, but the resulting task,
+request, deadline, or decision must still be directly
+supported by the conversation.
+
 Return the MESSAGE_ID exactly as provided.
 
 Return only the requested structured output.
@@ -261,7 +410,6 @@ NEXT MESSAGES:
     )
 
     prompt = f"""
-
 You are a conversation intelligence system analyzing
 multiple WhatsApp conversations.
 
@@ -278,6 +426,108 @@ Understand:
 - spelling mistakes
 - casual conversation
 
+TASK vs REQUEST — IMPORTANT DISTINCTION:
+
+A TASK means the speaker or the speaker's side is expected
+to perform the action.
+
+Examples:
+- "I need to submit the assignment." → task
+- "I'll send the code tonight." → task
+- "I will complete the form." → task
+
+A REQUEST means the speaker is asking ANOTHER PERSON
+to perform an action or provide something.
+
+Examples:
+- "Can you send me the assignment?" → request
+- "Please send the PYQ solution." → request
+- "Mujhe notes bhej do." → request
+
+DO NOT classify a message as a REQUEST merely because it
+contains an imperative/action verb such as:
+send, solve, submit, check, prepare, or share.
+
+Determine WHO is expected to perform the action using the
+current message and surrounding context.
+
+If the speaker describes their own responsibility,
+intention, or planned action, classify it as TASK.
+
+If the speaker asks another person to act or provide
+something, classify it as REQUEST.
+
+If the context does not establish who should perform the
+action, do not invent an assignee. Prefer a conservative
+classification with lower confidence.
+
+IMPORTANT:
+Do not assume that every imperative sentence is a request.
+The expected actor matters.
+
+DEADLINE:
+
+A DEADLINE is used when a specific date, day, time, or
+time constraint is explicitly mentioned AND is clearly
+associated with an action, requirement, or commitment.
+
+Examples:
+- "Submit the assignment tomorrow." → deadline
+- "Kal submit karna hai." → deadline
+
+Do not classify every message containing a time as a
+deadline. The time must be meaningful to an action,
+requirement, or commitment.
+
+INFORMATION:
+
+An INFORMATION message contains a useful fact, update,
+announcement, or knowledge that does not necessarily
+require an action.
+
+DECISION:
+
+A DECISION means the conversation clearly indicates that
+something has been finalized, selected, agreed upon,
+or decided.
+
+Examples:
+- "We'll use React." → decision
+- "Topic finalized: Face Recognition." → decision
+- "Let's go with option 2." → decision
+
+Do not classify a suggestion as a decision unless the
+conversation indicates that it was actually accepted
+or finalized.
+
+CONTEXT INTERPRETATION:
+
+The CURRENT MESSAGE is the primary message being classified.
+
+PREVIOUS and NEXT messages are provided to clarify its meaning.
+
+Use context to determine:
+- who is speaking
+- who is being addressed
+- who is expected to perform an action
+- what an action refers to
+- what a deadline applies to
+- whether an action is personal or requested from another person
+- whether a decision was actually finalized
+
+Context may clarify the meaning, but NEVER invent an action,
+person, deadline, responsibility, or decision that is not
+supported by the conversation.
+
+AMBIGUOUS ACTIONS:
+
+If a message could reasonably be interpreted as either
+a TASK or REQUEST and the available context does not
+resolve the ambiguity, do not force a classification.
+
+Prefer NONE or INFORMATION with lower confidence rather
+than making an unsupported assumption.
+
 STRICT ACCURACY RULES:
 
 1. DO NOT INVENT INFORMATION.
@@ -290,11 +540,11 @@ STRICT ACCURACY RULES:
    do not invent what they will do unless the surrounding
    conversation clearly establishes the action.
 
-3. A TASK means there is a clear action that someone
-   needs to perform.
+3. A TASK means the speaker or the speaker's side is
+   expected to perform a clear action.
 
-4. A REQUEST means someone is clearly asking another
-   person for something.
+4. A REQUEST means the speaker is asking another person
+   to perform an action or provide something.
 
 5. A DEADLINE means a specific date, day, time, or
    time constraint is explicitly mentioned AND the
@@ -332,6 +582,11 @@ STRICT ACCURACY RULES:
 
 13. Preserve the MESSAGE_ID exactly as provided.
 
+14. CONTEXT MUST NOT BE USED TO INVENT FACTS.
+    Context may clarify the meaning of the current message,
+    but every extracted result must remain supported by
+    the conversation.
+
 15. EVIDENCE REQUIREMENT:
     For every result that is not NONE, provide an
     "evidence" field containing the exact original
@@ -350,15 +605,26 @@ STRICT ACCURACY RULES:
 18. For tasks, the evidence must support the actual action
     described in the task.
 
-19. For deadlines, the evidence must support both the
+19. For requests, the evidence must support that another
+    person is being asked to perform or provide something.
+
+20. For deadlines, the evidence must support both the
     existence of the deadline and what it applies to.
 
-20. Do not use surrounding context to invent an action.
-    Context may clarify a message, but the resulting task
-    must still be directly supported by the conversation.
+21. For decisions, the evidence must support that the
+    decision was actually finalized or agreed upon.
+
+22. Do not use surrounding context to invent an action.
+    Context may clarify a message, but the resulting task,
+    request, deadline, or decision must still be directly
+    supported by the conversation.
+
+23. If a TASK and REQUEST interpretation are both possible
+    and context does not resolve the difference, prefer
+    NONE or INFORMATION with lower confidence rather than
+    inventing who is responsible.
 
 CONVERSATIONS:
-
 
 {all_conversations}
 """

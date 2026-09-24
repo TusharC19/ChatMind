@@ -1,192 +1,160 @@
-# 💬 ChatAnalyser — AI-Powered Conversation Intelligence
+ # ChatMind --- AI-Powered Conversation Intelligence
 
-A **Streamlit-based WhatsApp Conversation Intelligence platform** that transforms unstructured WhatsApp conversations into useful, actionable information.
+ChatMind is a **WhatsApp conversation intelligence platform** that
+turns unstructured group conversations into useful, actionable
+information.
 
-Unlike traditional chat analyzers that only show statistics, ChatAnalyser uses **AI, context extraction, evidence validation, and semantic search** to identify:
+Instead of only showing chat statistics, ChatMind identifies
+**tasks, requests, deadlines, and decisions** hidden inside everyday
+conversations and lets users search their conversations using natural
+language.
 
-- 🎯 Tasks
-- 🙋 Requests
-- 📅 Deadlines
-- 🤝 Decisions
-- 🔴 Priority
-- 🔎 Evidence from the original conversation
+------------------------------------------------------------------------
 
-It also allows users to **ask questions about their conversation using natural language**.
+## 🚀 Why ChatMind?
 
----
-
-## 🚀 Why ChatAnalyser?
-
-Important information in WhatsApp groups is often buried among hundreds or thousands of casual messages.
+Important information in WhatsApp groups is often buried among hundreds
+or thousands of casual messages.
 
 For example:
 
-> "Aaj raat ko degunga, waise kal submit krne bola the sir"
+> "Please submit the assignment by tomorrow."
 
-A traditional chat analyzer would treat this as just another message.
+A normal chat analytics application may count this as just another
+message.
 
-ChatAnalyser can identify:
+ChatMind can identify that it contains a:
 
-```text
-Task       → Submit assignment
-Deadline   → Tomorrow
-Priority   → High
-Evidence   → "waise kal submit krne bola the sir"
-```
+-   **Deadline:** tomorrow
+-   **Task:** submit assignment
+-   **Priority:** high
+-   **Evidence:** "submit the assignment by tomorrow"
 
-This turns an unstructured conversation into **actionable intelligence**.
+This turns a conversation into **actionable information**.
 
----
+------------------------------------------------------------------------
 
-# ✨ Features
+## ✨ Features
 
-## 📊 1. WhatsApp Chat Analytics
+### 📊 Chat Analytics
 
 The original chat-analysis functionality is preserved.
 
-- 📩 Total messages
-- 📝 Total words
-- 📎 Media shared
-- 🔗 Links shared
-- 📅 Monthly timeline
-- 📆 Daily timeline
-- 🔥 Most active day
-- 📈 Most active month
-- 🗓️ Weekly activity heatmap
-- 👥 Most active users
-- ☁️ WordCloud visualization
-- 🔤 Most common words
-- 😀 Emoji analysis
+-   Total messages
+-   Total words
+-   Media shared
+-   Links shared
+-   Monthly activity timeline
+-   Daily activity timeline
+-   Most active day
+-   Most active month
+-   Weekly activity heatmap
+-   Most active users
+-   Word cloud
+-   Most common words
+-   Emoji analysis
 
----
+------------------------------------------------------------------------
 
-## 🧠 2. AI Conversation Intelligence
+### 🧠 AI Conversation Intelligence
 
-The application identifies useful information hidden inside conversations using the Google Gemini API.
+The AI pipeline analyzes relevant messages and extracts structured
+information such as:
 
-The AI extracts:
+-   **Tasks**
+-   **Requests**
+-   **Deadlines**
+-   **Decisions**
+-   Priority
+-   Confidence score
+-   Evidence from the original message
 
-- 🎯 Tasks
-- 🙋 Requests
-- 📅 Deadlines
-- 🤝 Decisions
-- ⭐ Importance
-- 🔴 Priority
-- 📊 Confidence score
-- 📌 Evidence
+The system first filters potentially useful messages instead of sending
+the entire conversation to the LLM.
 
-The system does not send every message directly to the LLM.
+------------------------------------------------------------------------
 
-Instead, it first filters potentially useful messages using a **rule-based candidate detection system**, then batches the remaining candidates for API calls.
+### 🎯 Action Dashboard
 
----
+The extracted information is organized into a dashboard with filters
+for:
 
-## 🎯 3. Action Dashboard
+-   Type
+    -   Tasks
+    -   Requests
+    -   Deadlines
+    -   Decisions
+-   Priority
+    -   High
+    -   Medium
+    -   Low
 
-Extracted information is organized into an actionable dashboard.
+The dashboard also removes duplicate actions before displaying them.
 
-### Available filters
+------------------------------------------------------------------------
 
-**Filter by type**
+### 🔎 Evidence & Source Traceability
 
-- All
-- Tasks
-- Requests
-- Deadlines
-- Decisions
-
-**Filter by priority**
-
-- All
-- High
-- Medium
-- Low
-
-Example:
-
-```text
-🎯 Action Dashboard
-
-🔴 High Priority
-
-Submit assignment
-Type: deadline
-Deadline: tomorrow
-Confidence: 1.0
-```
-
----
-
-## 🔎 4. Evidence & Source Traceability
-
-Every extracted action can be traced back to the original WhatsApp message.
+Every extracted action can be traced back to its original WhatsApp
+message.
 
 The source viewer displays:
 
-- 📌 AI evidence
-- 💬 Original message
-- 💭 Surrounding conversation context
-- 🆔 Message ID
+-   AI evidence
+-   Original message
+-   Surrounding conversation context
+-   Message ID
+
+This makes AI-generated insights **verifiable rather than opaque**.
 
 Example:
 
-```text
-Extracted Action:
+``` text
+Extracted:
 Submit assignment
 
 Deadline:
 Tomorrow
 
 Evidence:
-"waise kal submit krne bola the sir"
+"submit the assignment by tomorrow"
 
 Source:
-Message 849
+Original WhatsApp conversation
 ```
 
-This makes the AI output **verifiable and grounded in the original conversation**, rather than a black-box claim.
+------------------------------------------------------------------------
 
----
+### 💬 Ask Your Conversation
 
-## 🧹 5. Action Deduplication
+Users can search the chat using natural language.
 
-The system prevents repeated actions from unnecessarily appearing multiple times.
+Example:
 
-For example, "Fill out the assignment form" appearing as both a task and a request from different messages can represent the same practical action.
-
-ChatAnalyser normalizes action text and removes duplicate results while preserving the highest-confidence result and its original source.
-
----
-
-## 🔍 6. Ask Your Conversation
-
-Users can search their WhatsApp conversation using natural language, e.g. *"When do I need to submit the assignment?"*
-
-The system combines:
-
-```text
-Semantic Similarity (60%)
-        +
-Keyword Matching (25%)
-        +
-AI Relevance (15%)
-        ↓
-Ranked Conversation Results
+``` text
+When do I need to submit the assignment?
 ```
 
-The result can show the relevant message, AI interpretation (task/deadline/priority/confidence), evidence, and original conversation context.
+The system searches the conversation semantically and combines:
 
----
+-   Semantic similarity
+-   Keyword matching
+-   AI-extracted information
 
-# 🏗️ System Architecture
+The result can include the relevant message, AI insight, evidence,
+priority, confidence, and surrounding context.
 
-```text
+------------------------------------------------------------------------
+
+## 🏗️ System Architecture
+
+``` text
                  WhatsApp TXT Export
                          │
                          ▼
                 ┌─────────────────┐
                 │  Preprocessing  │
-                │    + Parsing    │
+                │   + Parsing     │
                 └────────┬────────┘
                          │
                          ▼
@@ -219,66 +187,173 @@ The result can show the relevant message, AI interpretation (task/deadline/prior
                               Streamlit Interface
 ```
 
----
+------------------------------------------------------------------------
 
-# 🔄 AI Processing Pipeline
+## 🔄 AI Processing Pipeline
 
-## 1️⃣ WhatsApp Preprocessing
+The AI system is designed as a multi-stage pipeline rather than sending
+every message directly to an LLM.
 
-The exported WhatsApp `.txt` file is converted into a structured Pandas DataFrame with fields such as `message_id`, `date`, `time`, `user`, and `message`.
+### 1. Preprocessing
 
-## 2️⃣ Candidate Filtering
+The WhatsApp `.txt` export is parsed into structured records containing
+information such as:
 
-Instead of sending the complete conversation to Gemini, ChatAnalyser first identifies potentially important messages using pattern-based detection for actions, requests, deadlines, decisions, and questions (including Hinglish indicators).
+-   Message ID
+-   Date/time
+-   User
+-   Message
+-   Date components
+-   Activity periods
 
-Example from development testing:
+### 2. Candidate Filtering
 
-```text
-Total messages:     1048
-Candidate messages: 44
+Rule-based patterns identify messages that are potentially actionable.
+
+Examples include:
+
+-   Action words
+-   Requests
+-   Deadline expressions
+-   Decision-related phrases
+-   Questions
+
+This reduces unnecessary LLM calls.
+
+For example, in one tested conversation:
+
+``` text
+A large WhatsApp conversation
+A filtered subset of potentially relevant messages
 ```
 
-This reduces unnecessary AI processing and API cost.
+### 3. Context Extraction
 
-## 3️⃣ Context Extraction
+Each candidate is processed together with nearby messages.
 
-For each candidate message, surrounding messages are included — by default, 2 previous messages, the current message, and 2 next messages — to help the AI understand conversational context.
+The default context window is:
 
-## 4️⃣ Gemini AI Extraction
+``` text
+2 previous messages
++
+current message
++
+2 next messages
+```
 
-Candidate messages (with context) are sent to Gemini in batches. The extraction schema returns structured fields: `message_id`, `is_important`, `type`, `task`, `deadline`, `priority`, `confidence`, `evidence`.
+This provides conversational context for ambiguous messages.
 
-Supported types: `task`, `request`, `deadline`, `decision`, `information`, `none`.
+### 4. Gemini Extraction
 
-## 5️⃣ Validation
+Gemini converts the conversational context into structured information.
 
-AI-generated results are validated before being displayed — checking message ID validity, supported type, valid priority/confidence values, and evidence consistency against the original conversation. Unsupported results are not blindly shown.
+The extraction schema includes:
 
-## 6️⃣ Deduplication
+``` text
+message_id
+is_important
+type
+task
+deadline
+priority
+confidence
+evidence
+```
 
-Similar actions are normalized and duplicate results are removed, retaining the highest-confidence result along with its message ID and original context.
+### 5. Validation
 
-## 7️⃣ Semantic Search
+The extracted results are validated before being displayed.
 
-Conversation messages are embedded using `all-MiniLM-L6-v2`, with FAISS used for similarity search. Rankings combine semantic similarity, keyword matching, and AI relevance to support natural-language queries even when exact wording doesn't match the source message.
+Validation checks include:
 
----
+-   Valid message IDs
+-   Supported result types
+-   Valid priorities
+-   Confidence values
+-   Evidence consistency
+-   Evidence presence in the surrounding conversation
 
-# 🛠️ Tech Stack
+Unsupported or insufficiently grounded results can be demoted instead of
+being blindly displayed.
 
-**Frontend / Interface:** Streamlit
-**Programming:** Python
-**Data Processing:** Pandas, NumPy, Matplotlib, Seaborn
-**AI / NLP:** Google Gemini API, `google-genai`, Sentence Transformers
-**Semantic Search:** FAISS, `all-MiniLM-L6-v2`
-**Configuration:** Python environment variables, `.env`
+### 6. Deduplication
 
----
+Similar actions are normalized and duplicate results are removed.
 
-# 📂 Project Structure
+The system preserves the highest-confidence occurrence so that its
+original source and evidence remain available.
 
-```text
-ChatAnalyser/
+### 7. Semantic Search
+
+Conversation messages are embedded using:
+
+``` text
+all-MiniLM-L6-v2
+```
+
+and indexed with FAISS.
+
+Search ranking combines:
+
+``` text
+60% Semantic Similarity
+25% Keyword Matching
+15% AI Relevance
+```
+
+This allows queries such as:
+
+``` text
+When do I need to submit the assignment?
+```
+
+to retrieve relevant messages even when the query wording does not
+exactly match the original conversation.
+
+------------------------------------------------------------------------
+
+## 🛠️ Tech Stack
+
+### Frontend / Interface
+
+-   Streamlit
+
+### Programming
+
+-   Python
+
+### Data Processing
+
+-   Pandas
+-   NumPy
+-   Matplotlib
+-   Seaborn
+
+### AI / NLP
+
+-   Google Gemini API
+-   `google-genai`
+-   Sentence Transformers
+
+### Semantic Search
+
+-   FAISS
+-   `all-MiniLM-L6-v2`
+
+### Validation
+
+-   Pydantic
+
+### Configuration
+
+-   Python environment variables / `.env`
+
+------------------------------------------------------------------------
+
+## 📁 Project Structure
+
+``` text
+ChatMind/
 │
 ├── app.py
 ├── preprocessor.py
@@ -300,197 +375,342 @@ ChatAnalyser/
 └── README.md
 ```
 
----
+------------------------------------------------------------------------
 
-# ⚙️ Installation & Setup
+## ⚙️ Installation
 
-### 1️⃣ Clone the repository
+### 1. Clone the repository
 
-```bash
-git clone https://github.com/TusharC19/ChatAnalyser.git
-cd ChatAnalyser
+``` bash
+git clone https://github.com/TusharC19/ChatMind.git
+cd ChatMind
 ```
 
-### 2️⃣ Create a virtual environment
+### 2. Create a virtual environment
 
-**Windows**
-```bash
+``` bash
 python -m venv venv
+```
+
+Activate it on Windows:
+
+``` bash
 venv\Scripts\activate
 ```
 
-**Linux / macOS**
-```bash
-python -m venv venv
+On Linux/macOS:
+
+``` bash
 source venv/bin/activate
 ```
 
-### 3️⃣ Install dependencies
+### 3. Install dependencies
 
-```bash
+``` bash
 pip install -r requirements.txt
 ```
 
-If the AI/search dependencies are not already included:
+If dependencies are not already listed in `requirements.txt`, the core
+AI/search packages include:
 
-```bash
-pip install google-genai sentence-transformers faiss-cpu
+``` bash
+pip install google-genai sentence-transformers faiss-cpu pydantic
 ```
 
----
+### 4. Configure Gemini API
 
-# 🔑 Gemini API Configuration
+Create a `.env` file:
 
-Create a `.env` file in the project root:
-
-```env
+``` env
 GEMINI_API_KEY=your_api_key_here
 ```
 
-Make sure `.env` is included in `.gitignore`:
+Do **not** commit `.env` to Git.
 
-```text
+Make sure `.gitignore` contains:
+
+``` text
 .env
 __pycache__/
 *.pyc
 ```
 
-**Never commit your API key to GitHub.**
+------------------------------------------------------------------------
 
----
+## ▶️ Running the Application
 
-# ▶️ Running the Application
+Start Streamlit:
 
-```bash
+``` bash
 streamlit run app.py
 ```
 
-The application will open in your browser.
+Then open the local Streamlit URL shown in the terminal.
 
----
+------------------------------------------------------------------------
 
-# 📱 How to Use
+## 📱 How to Use
 
-1. **Export WhatsApp Chat** — export a conversation as `.txt` (without media, for best results).
-2. **Upload the Chat** — upload the `.txt` file via the sidebar.
-3. **Select Analysis Scope** — choose "Overall" or a specific participant.
-4. **Explore Chat Analytics** — message stats, timelines, active users, word frequency, WordCloud, emoji analysis, activity heatmaps.
-5. **Run AI Analysis** — click "🔍 Analyze Conversation with AI" to extract tasks, requests, deadlines, and decisions.
-6. **Explore the Action Dashboard** — filter extracted actions by type and priority.
-7. **Verify AI Results** — click "🔎 View source" to see evidence, original message, and surrounding context.
-8. **Ask Your Conversation** — enter natural-language questions like *"When do I need to submit the assignment?"*
+### Step 1 --- Export a WhatsApp Chat
 
----
+Export a WhatsApp conversation as a `.txt` file.
 
-# 🧪 Testing
+The exported file should contain the standard WhatsApp chat format.
 
-The AI pipeline has been tested on a WhatsApp conversation containing:
+### Step 2 --- Upload the File
 
-```text
-Total messages: 1048
-Candidate messages: 44
-AI results: 44
+Upload the `.txt` file using the sidebar.
+
+### Step 3 --- Select Analysis Scope
+
+Choose:
+
+``` text
+Overall
 ```
 
-### Example extracted result
+or a specific participant.
 
-```text
-Message ID:  849
-Type:        deadline
-Task:        Submit assignment
-Deadline:    tomorrow
-Priority:    high
-Confidence:  0.95
-Evidence:    "waise kal submit krne bola the sir"
+### Step 4 --- View Chat Analytics
+
+Explore the existing statistics and visualizations.
+
+### Step 5 --- Run AI Analysis
+
+Click:
+
+``` text
+🔍 Analyze Conversation with AI
 ```
 
-> Note: this reflects development testing on one sample dataset, not a formal accuracy benchmark across multiple conversations.
+The system extracts actionable information.
 
----
+### Step 6 --- Explore the Action Dashboard
 
-# 🎯 Real-World Use Cases
+Review:
 
-- **Student Groups** — assignment deadlines, tasks, resources, project decisions
-- **Project Teams** — assigned tasks, requests, submission deadlines, decisions
-- **Organization / Event Groups** — responsibilities, pending actions, important dates
+-   High-priority items
+-   Deadlines
+-   Tasks
+-   Requests
+-   Decisions
 
----
+Use the filters to narrow the results.
 
-# 💡 What Makes ChatAnalyser Different?
+### Step 7 --- Verify an AI Result
 
-Traditional WhatsApp chat analyzers primarily answer: **"What happened in this conversation?"**
+Open:
 
-ChatAnalyser aims to answer: **"What useful information can I take from this conversation?"**
-
-It combines chat analytics, rule-based candidate filtering, context-aware AI extraction, evidence validation, action deduplication, an action dashboard, and semantic search — a prototype for **conversation intelligence**, rather than just a chat visualization tool.
-
----
-
-# ⚠️ Current Limitations
-
-- Ambiguous messages can be difficult to classify; task vs. request classification may sometimes overlap.
-- Informal Hinglish and abbreviations can affect extraction accuracy.
-- Relative time expressions (`kal`, `1st`, `7 baje`) may require conversational context to resolve correctly.
-- Semantic search quality depends on the embedding model used.
-- AI analysis requires a configured Gemini API key and is subject to its rate limits/quotas.
-- Works with exported WhatsApp `.txt` conversations, not real-time WhatsApp messages.
-- Not a replacement for a full task-management or calendar application.
-
----
-
-# 🔮 Future Improvements
-
-- Better task vs. request classification
-- Improved Hinglish and multilingual understanding
-- Better date/time normalization
-- User-specific task assignment
-- Calendar export for deadlines
-- Custom priority settings
-- More advanced semantic retrieval
-- Conversation summarization
-- Real-time chat ingestion
-- Hosted deployment
-
----
-
-# 🔐 Privacy & Security
-
-ChatAnalyser may process private conversation data. Users should:
-
-- Keep API keys inside `.env` and never commit them to GitHub
-- Understand that candidate message context is sent to the Gemini API for processing — this is not a fully local/offline pipeline
-- Avoid uploading sensitive conversations unless they understand this
-- Only analyze conversations they are authorized to use
-
----
-
-# 🤝 Contributing
-
-Contributions and suggestions are welcome.
-
-```bash
-git fork
-git clone <your-fork>
-git checkout -b feature/your-feature
+``` text
+🔎 View source
 ```
 
-Make your changes and submit a pull request.
+to see the evidence and surrounding conversation.
 
----
+### Step 8 --- Ask the Conversation
 
-# 📄 License
+Enter a natural-language question such as:
 
-This project is licensed under the **MIT License**.
+``` text
+When do I need to submit the assignment?
+```
 
----
+and search the conversation.
 
-# 👨‍💻 Author
+------------------------------------------------------------------------
 
-**Tushar Chaturvedi**
-B.Tech — Computer Science & Engineering, National Institute of Technology Raipur
+## 🔐 Privacy & Security
 
----
+ChatMind processes the uploaded conversation for analysis.
 
-## ⭐ If you find this project useful
+Important considerations:
 
-Consider giving the repository a ⭐ on GitHub!
+-   Keep API keys in `.env`.
+-   Never commit API keys to GitHub.
+-   Avoid uploading sensitive/private conversations to services unless
+    you understand the relevant privacy implications.
+-   The application should be used only with conversations that you are
+    authorized to analyze.
+
+------------------------------------------------------------------------
+
+## 🎯 Example Use Cases
+
+ChatMind can be useful for conversations where important information
+is mixed with casual messages.
+
+### Student Groups
+
+Find:
+
+-   Assignment deadlines
+-   Questions to solve
+-   Notes/resources people promised to send
+-   Decisions about projects
+-   Exam-related information
+
+### Project Teams
+
+Find:
+
+-   Assigned tasks
+-   Requests between teammates
+-   Submission deadlines
+-   Project decisions
+-   Important technical discussions
+
+### Event / Organization Groups
+
+Find:
+
+-   Responsibilities
+-   Pending actions
+-   Dates and deadlines
+-   Decisions
+-   Requests for resources
+
+------------------------------------------------------------------------
+
+## 🧪 Testing
+
+The project includes separate components for testing different parts of
+the pipeline.
+
+The AI pipeline has been tested during development using exported WhatsApp conversations. A synthetic example of the expected result is:
+
+``` text
+A large WhatsApp conversation
+A filtered subset of potentially relevant messages
+Structured AI results
+```
+
+The system successfully produced structured results containing:
+
+``` text
+message_id
+date
+user
+message
+candidate_score
+candidate_reason
+is_important
+type
+task
+deadline
+priority
+confidence
+evidence
+```
+
+A representative extracted result was:
+
+``` text
+Message ID: synthetic-example
+
+Type:
+deadline
+
+Task:
+Submit assignment
+
+Deadline:
+tomorrow
+
+Priority:
+high
+
+Confidence:
+0.95
+
+Evidence:
+"submit the assignment by tomorrow"
+```
+
+------------------------------------------------------------------------
+
+## ⚠️ Current Limitations
+
+ChatMind is an AI-assisted system and extraction quality can depend
+on conversational context.
+
+Current limitations include:
+
+-   Ambiguous messages can be difficult to classify as tasks or
+    requests.
+-   Informal Hinglish and abbreviations can affect extraction.
+-   Deadline expressions such as "kal", "1st", or "7 baje" may require
+    contextual interpretation.
+-   Semantic search quality depends on the embedding model.
+-   AI analysis requires access to the configured Gemini API.
+-   The current system is primarily designed for exported WhatsApp
+    `.txt` conversations rather than real-time WhatsApp integration.
+
+These limitations are areas for future improvement rather than
+assumptions that every conversation can be interpreted perfectly.
+
+------------------------------------------------------------------------
+
+## 🔮 Future Improvements
+
+Potential future extensions include:
+
+-   Better Task vs Request classification
+-   Improved multilingual/Hinglish understanding
+-   More advanced action deduplication
+-   User-specific task assignment
+-   Calendar export for extracted deadlines
+-   Priority customization
+-   Better temporal/date normalization
+-   Real-time or automated chat ingestion
+-   Conversation summarization
+-   Improved semantic retrieval
+-   Deployment and hosted usage
+-   Evaluation dataset and quantitative extraction metrics
+
+------------------------------------------------------------------------
+
+## 💡 What Makes This Different?
+
+Traditional WhatsApp chat analyzers primarily answer:
+
+> **"What happened in this conversation?"**
+
+ChatMind aims to answer:
+
+> **"What useful information can I take from this conversation?"**
+
+The system combines:
+
+``` text
+Chat Analytics
+      +
+Rule-based Candidate Filtering
+      +
+LLM Information Extraction
+      +
+Evidence Validation
+      +
+Action Dashboard
+      +
+Semantic Search
+```
+
+This makes the project more than a visualization tool: it is a prototype
+for **conversation intelligence**.
+
+------------------------------------------------------------------------
+
+## 👨‍💻 Author
+
+**Tushar**
+
+B.Tech --- Computer Science & Engineering\
+National Institute of Technology Raipur
+
+GitHub: `TusharC19`
+
+------------------------------------------------------------------------
+
+## 📄 License
+
+This project is intended for educational and portfolio purposes.

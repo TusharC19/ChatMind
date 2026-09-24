@@ -1302,7 +1302,7 @@ if uploaded_file is not None:
                                     "deadline"
                                 )
 
-                                if deadline is not None:
+                                if deadline is not None and not pd.isna(deadline):
 
                                     st.write(
                                         f"**Deadline:** "

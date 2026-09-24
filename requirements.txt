@@ -1,8 +1,15 @@
 streamlit
 pandas
+numpy
 matplotlib
 seaborn
 wordcloud
 nltk
 emoji
 urlextract
+
+python-dotenv
+pydantic
+google-genai
+sentence-transformers
+faiss-cpu

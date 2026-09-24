@@ -1,5 +1,24 @@
-.venv/
-__pycache__/
-.idea/
-*.pyc
+# Environment variables / secrets
 .env
+.env.*
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Generated AI output
+ai_results.csv
+
+# Private WhatsApp exports
+chat.txt
+
+# Virtual environments
+venv/
+.venv/
+
+# IDE
+.idea/
+.vscode/
+
+# Streamlit
+.streamlit/secrets.toml
